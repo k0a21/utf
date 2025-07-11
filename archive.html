@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>utf - archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="archive-page page-background">
+    <!-- Unified Header -->
+    <header class="page-header">
+        <div class="hamburger-menu" id="menu-toggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </div>
+    </header>
+
+    <!-- Visually Centered Logo -->
+    <div class="header-visual-center">
+        <a href="main.html">
+            <img src="logo.png" alt="utf logo" class="logo-header">
+        </a>
+    </div>
+
+    <!-- Unified Slide Menu -->
+    <div class="slide-menu" id="slide-menu">
+        <div class="menu-close" id="menu-close"></div>
+        <nav class="slide-menu-nav">
+            <a href="main.html" class="slide-menu-item">home</a>
+            <a href="about.html" class="slide-menu-item">about</a>
+            <a href="store.html" class="slide-menu-item">store</a>
+            <a href="archive.html" class="slide-menu-item">archive</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="archive-content">
+        <div class="gallery-container">
+            <!-- Hero Image -->
+            <div class="hero-image">
+                <div class="gallery-item" data-index="0">
+                    <img src="gallery2.JPG" alt="Gallery Image" class="hero-img" loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Regular Images Grid -->
+            <div class="images-grid">
+                <div class="gallery-item" data-index="1">
+                    <img src="gallery1.JPG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="2">
+                    <img src="gallery3.JPG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="3">
+                    <img src="gallery4.JPG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="4">
+                    <img src="gallery5.JPG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="5">
+                    <img src="gallery18.PNG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="6">
+                    <img src="gallery10.JPG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="7">
+                    <img src="gallery17.PNG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+                <div class="gallery-item" data-index="8">
+                    <img src="gallery15.PNG" alt="Gallery Image" class="grid-img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Gallery -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-gallery">
+                <div class="modal-nav-arrow modal-nav-left" id="modal-prev">&lt;</div>
+                <div class="modal-image-container">
+                    <img id="modal-image" class="modal-image" src="" alt="">
+                </div>
+                <div class="modal-nav-arrow modal-nav-right" id="modal-next">&gt;</div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; margin-bottom: 16px;">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: #aaa; opacity: 0.8;">©️utf project</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gallery images array
+            const galleryImages = [
+                'gallery2.JPG',
+                'gallery1.JPG',
+                'gallery3.JPG',
+                'gallery4.JPG',
+                'gallery5.JPG',
+                'gallery18.PNG',
+                'gallery10.JPG',
+                'gallery17.PNG',
+                'gallery15.PNG'
+            ];
+            
+            // Modal elements
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalImage = document.getElementById('modal-image');
+            const modalClose = document.getElementById('modal-close');
+            const modalPrev = document.getElementById('modal-prev');
+            const modalNext = document.getElementById('modal-next');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            let currentImageIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            // Open modal function
+            function openModal(index) {
+                currentImageIndex = index;
+                modalImage.src = galleryImages[index];
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Close modal function
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            // Navigate to previous image
+            function prevImage() {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+                modalImage.src = galleryImages[currentImageIndex];
+            }
+            
+            // Navigate to next image
+            function nextImage() {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                modalImage.src = galleryImages[currentImageIndex];
+            }
+            
+            // Add click event listeners to gallery items
+            galleryItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    const dataIndex = parseInt(this.getAttribute('data-index'));
+                    openModal(dataIndex);
+                });
+            });
+            
+            // Modal navigation event listeners
+            modalClose.addEventListener('click', closeModal);
+            modalPrev.addEventListener('click', prevImage);
+            modalNext.addEventListener('click', nextImage);
+            
+            // Touch/swipe event listeners
+            modalImage.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            modalImage.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const swipeDistance = touchEndX - touchStartX;
+                
+                if (Math.abs(swipeDistance) > swipeThreshold) {
+                    if (swipeDistance > 0) {
+                        // Swipe right - previous image
+                        prevImage();
+                    } else {
+                        // Swipe left - next image
+                        nextImage();
+                    }
+                }
+            }
+            
+            // Close modal on overlay click
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Prevent event bubbling for navigation arrows
+            modalPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            modalNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (modalOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        prevImage();
+                    } else if (e.key === 'ArrowRight') {
+                        nextImage();
+                    }
+                }
+            });
+            
+            // Unified menu functionality
+            const menuToggle = document.getElementById('menu-toggle');
+            const slideMenu = document.getElementById('slide-menu');
+            const menuClose = document.getElementById('menu-close');
+            
+            function openMenu() {
+                menuToggle.classList.add('active');
+                slideMenu.classList.add('open');
+            }
+            
+            function closeMenu() {
+                menuToggle.classList.remove('active');
+                slideMenu.classList.remove('open');
+            }
+            
+            if (menuToggle && slideMenu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (slideMenu.classList.contains('open')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+                
+                if (menuClose) {
+                    menuClose.addEventListener('click', closeMenu);
+                }
+                
+                document.addEventListener('click', function(e) {
+                    if (!slideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        closeMenu();
+                    }
+                });
+                
+                const menuItems = slideMenu.querySelectorAll('.slide-menu-item');
+                menuItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        closeMenu();
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

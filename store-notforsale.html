@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOT FOR SALE - utf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Product Detail Page Specific Styles */
+        .product-detail-page {
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Product Detail Content */
+        .product-detail-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-bottom: 80px;
+        }
+
+        /* Product Detail Layout */
+        .product-detail {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .product-detail-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 0 auto 5rem auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            filter: grayscale(8%) contrast(105%) brightness(1.02);
+            transition: all 0.3s ease;
+        }
+
+        .product-detail-image:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            filter: grayscale(5%) contrast(108%) brightness(1.05);
+        }
+
+        .product-detail-catchcopy {
+            font-size: 1.5rem;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            margin-bottom: 4rem;
+            font-style: normal;
+            opacity: 0.9;
+            line-height: 1.5;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .product-detail-category {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+            opacity: 0.8;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Responsive Design for Product Detail */
+        @media (max-width: 768px) {
+            .product-detail-content {
+                padding-top: 90px;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-bottom: 60px;
+            }
+            
+            .product-detail-image {
+                max-width: 90%;
+                margin-bottom: 4rem;
+            }
+            
+            .product-detail-catchcopy {
+                font-size: 1.3rem;
+                margin-bottom: 3.5rem;
+            }
+            
+            .product-detail-category {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-detail-content {
+                padding-top: 85px;
+            }
+            
+            .product-detail-image {
+                max-width: 95%;
+                margin-bottom: 3.5rem;
+            }
+            
+            .product-detail-catchcopy {
+                font-size: 1.1rem;
+                margin-bottom: 3rem;
+            }
+            
+            .product-detail-category {
+                font-size: 0.85rem;
+                margin-top: 2.5rem;
+            }
+        }
+
+        /* Product Info Section */
+        .product-info-section {
+            text-align: center;
+            margin-top: 1.75rem; /* 2.5rem から約10px減 */
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+
+        .product-artwork-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #2a2a2a;
+            text-transform: lowercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 26px 0; /* 24-28px の中間値 */
+        }
+
+        .product-price-display {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #444;
+            margin: 0 0 22px 0; /* 20-24px の中間値 */
+        }
+
+        .product-message {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #888;
+            line-height: 1.6;
+            letter-spacing: 0.7px; /* 少し広めに */
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .product-info-section {
+                margin-top: 1.5rem; /* 比例して調整 */
+                padding: 0 0.8rem;
+            }
+
+            .product-artwork-label {
+                font-size: 13px;
+                margin-bottom: 22px; /* 比例して調整 */
+            }
+
+            .product-price-display {
+                font-size: 15px;
+                margin-bottom: 18px; /* 比例して調整 */
+            }
+
+            .product-message {
+                font-size: 13px;
+                letter-spacing: 0.6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-info-section {
+                margin-top: 1.3rem; /* 比例して調整 */
+                padding: 0 0.5rem;
+            }
+
+            .product-artwork-label {
+                font-size: 12px;
+                margin-bottom: 20px; /* 比例して調整 */
+            }
+
+            .product-price-display {
+                font-size: 14px;
+                margin-bottom: 16px; /* 比例して調整 */
+            }
+
+            .product-message {
+                font-size: 12px;
+                line-height: 1.7;
+                letter-spacing: 0.5px;
+            }
+        }
+    </style>
+</head>
+<body class="product-detail-page page-background">
+    <!-- Unified Header -->
+    <header class="page-header">
+        <div class="hamburger-menu" id="menu-toggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </div>
+    </header>
+
+    <!-- Visually Centered Logo -->
+    <div class="header-visual-center">
+        <a href="main.html">
+            <img src="logo.png" alt="utf logo" class="logo-header">
+        </a>
+    </div>
+
+    <!-- Unified Slide Menu -->
+    <div class="slide-menu" id="slide-menu">
+        <div class="menu-close" id="menu-close"></div>
+        <nav class="slide-menu-nav">
+            <a href="main.html" class="slide-menu-item">home</a>
+            <a href="about.html" class="slide-menu-item">about</a>
+            <a href="store.html" class="slide-menu-item">store</a>
+            <a href="archive.html" class="slide-menu-item">archive</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="product-detail-content">
+        <div class="product-detail">
+            <img src="notforsale3.png" alt="NOT FOR SALE" class="product-detail-image">
+            <div class="product-info-section">
+                <p class="product-artwork-label">artwork</p>
+                <p class="product-price-display">¥-</p>
+                <p class="product-message">some beings aren't meant to be owned.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 40px; margin-bottom: 16px;">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: #aaa; opacity: 0.8;">©️utf project</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Unified menu functionality
+            const menuToggle = document.getElementById('menu-toggle');
+            const slideMenu = document.getElementById('slide-menu');
+            const menuClose = document.getElementById('menu-close');
+            
+            function openMenu() {
+                menuToggle.classList.add('active');
+                slideMenu.classList.add('open');
+            }
+            
+            function closeMenu() {
+                menuToggle.classList.remove('active');
+                slideMenu.classList.remove('open');
+            }
+            
+            if (menuToggle && slideMenu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (slideMenu.classList.contains('open')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+                
+                if (menuClose) {
+                    menuClose.addEventListener('click', closeMenu);
+                }
+                
+                document.addEventListener('click', function(e) {
+                    if (!slideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        closeMenu();
+                    }
+                });
+                
+                const menuItems = slideMenu.querySelectorAll('.slide-menu-item');
+                menuItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        closeMenu();
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>utf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hero-container">
+        <div class="hero-background"></div>
+        
+        <!-- Glassmorphism Slide to Enter -->
+        <div class="slide-container" id="slideContainer">
+            <div class="slide-track" id="slideTrack">
+                <div class="slide-thumb" id="slideThumb">
+                    <div class="slide-arrow">→</div>
+                </div>
+                <div class="slide-text" id="slideText">slide to enter</div>
+            </div>
+        </div>
+    </div>
+    <!-- Glassmorphism Slide to Enter Styles -->
+    <style>
+        .slide-container {
+            position: absolute;
+            left: 50%;
+            bottom: 18vh;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 999;
+            transition: opacity 0.8s ease;
+        }
+        
+        .slide-container.show {
+            opacity: 1;
+        }
+        
+        .slide-track {
+            position: relative;
+            width: 380px;
+            height: 72px;
+            background: linear-gradient(135deg, 
+                rgba(160, 160, 160, 0.08) 0%,
+                rgba(120, 120, 120, 0.06) 30%,
+                rgba(100, 100, 100, 0.08) 70%,
+                rgba(80, 80, 80, 0.1) 100%);
+            background-image: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(140, 140, 140, 0.015) 2px,
+                    rgba(140, 140, 140, 0.015) 3px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(160, 160, 160, 0.01) 3px,
+                    rgba(160, 160, 160, 0.01) 4px
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(180, 180, 180, 0.008) 1px,
+                    rgba(180, 180, 180, 0.008) 2px
+                );
+            border: 1px solid rgba(180, 180, 180, 0.15);
+            border-radius: 50px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 
+                0 3px 16px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(200, 200, 200, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+            cursor: grab;
+            user-select: none;
+            overflow: hidden;
+        }
+        
+        .slide-track::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 36px;
+            pointer-events: none;
+        }
+        
+        .slide-track.dragging {
+            background: linear-gradient(135deg, 
+                rgba(170, 170, 170, 0.1) 0%,
+                rgba(130, 130, 130, 0.08) 30%,
+                rgba(110, 110, 110, 0.1) 70%,
+                rgba(90, 90, 90, 0.12) 100%);
+            border-color: rgba(190, 190, 190, 0.2);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(210, 210, 210, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .slide-thumb {
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, 
+                rgba(245, 245, 245, 0.12) 0%,
+                rgba(220, 220, 220, 0.08) 30%,
+                rgba(200, 200, 200, 0.06) 70%,
+                rgba(180, 180, 180, 0.1) 100%);
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 6px,
+                    rgba(210, 210, 210, 0.02) 6px,
+                    rgba(210, 210, 210, 0.02) 7px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 6px,
+                    rgba(190, 190, 190, 0.015) 6px,
+                    rgba(190, 190, 190, 0.015) 7px
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(170, 170, 170, 0.01) 2px,
+                    rgba(170, 170, 170, 0.01) 3px
+                );
+            border: 1px solid rgba(200, 200, 200, 0.15);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            transform: translateX(0px);
+            transition: all 0.25s ease;
+            box-shadow: 
+                0px 2px 8px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(230, 230, 230, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            will-change: transform;
+        }
+        
+        .slide-thumb:hover {
+            background: linear-gradient(135deg, 
+                rgba(250, 250, 250, 0.15) 0%,
+                rgba(230, 230, 230, 0.1) 30%,
+                rgba(210, 210, 210, 0.08) 70%,
+                rgba(190, 190, 190, 0.12) 100%);
+            box-shadow: 
+                0px 3px 12px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(240, 240, 240, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+                0 0 8px rgba(200, 200, 200, 0.1);
+        }
+        
+        .slide-thumb.dragging {
+            cursor: grabbing;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(240, 240, 240, 0.12) 30%,
+                rgba(220, 220, 220, 0.1) 70%,
+                rgba(200, 200, 200, 0.15) 100%);
+            border-color: rgba(220, 220, 220, 0.25);
+            box-shadow: 
+                0px 4px 16px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(250, 250, 250, 0.25),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+                0 0 12px rgba(210, 210, 210, 0.15);
+            transform: translateX(0px) scale(1.02);
+        }
+        
+        .slide-arrow {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 
+                0 0 4px rgba(255, 255, 255, 0.3),
+                1px 1px 2px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .slide-thumb:hover .slide-arrow {
+            color: #ffffff;
+            text-shadow: 
+                0 0 6px rgba(255, 255, 255, 0.8),
+                0 0 12px rgba(0, 255, 255, 0.6),
+                2px -2px 4px rgba(255, 0, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .slide-thumb.dragging .slide-arrow {
+            color: #ffffff;
+            transform: scale(1.15);
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 1),
+                0 0 16px rgba(0, 255, 255, 0.8),
+                3px -3px 6px rgba(255, 0, 255, 0.6);
+        }
+        
+        .slide-text {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #DADADA;
+            letter-spacing: 0.08em;
+            text-transform: lowercase;
+            text-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.2);
+            user-select: none;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .slide-track.dragging .slide-text {
+            opacity: 0.5;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide-container {
+                bottom: 15vh;
+            }
+            
+            .slide-track {
+                width: 340px;
+                height: 68px;
+            }
+            
+            .slide-thumb {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .slide-arrow {
+                font-size: 24px;
+            }
+            
+            .slide-text {
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slide-container {
+                bottom: 12vh;
+            }
+            
+            .slide-track {
+                width: 320px;
+                height: 64px;
+            }
+            
+            .slide-thumb {
+                width: 56px;
+                height: 56px;
+            }
+            
+            .slide-arrow {
+                font-size: 20px;
+            }
+            
+            .slide-text {
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show slide container after 2 second delay
+            const slideContainer = document.getElementById('slideContainer');
+            setTimeout(() => {
+                if (slideContainer) {
+                    slideContainer.classList.add('show');
+                }
+            }, 2000);
+            
+            // Slide to enter functionality
+            const slideThumb = document.getElementById('slideThumb');
+            const slideTrack = document.getElementById('slideTrack');
+            const slideText = document.getElementById('slideText');
+            
+            let isDragging = false;
+            let startX = 0;
+            let currentTranslateX = 0;
+            let trackRect = null;
+            
+            // Calculate maximum slide distance
+            function getMaxSlideDistance() {
+                trackRect = slideTrack.getBoundingClientRect();
+                const thumbWidth = slideThumb.offsetWidth;
+                const trackPadding = 8; // 4px on each side
+                return slideTrack.offsetWidth - thumbWidth - trackPadding;
+            }
+            
+            let maxSlideDistance = getMaxSlideDistance();
+            
+            // Reset thumb position
+            function resetThumbPosition() {
+                currentTranslateX = 0;
+                slideThumb.style.transform = 'translateX(0px)';
+                slideThumb.classList.remove('dragging');
+                slideTrack.classList.remove('dragging');
+            }
+            
+            // Recalculate on window resize
+            window.addEventListener('resize', () => {
+                maxSlideDistance = getMaxSlideDistance();
+                resetThumbPosition();
+            });
+            
+            // Mouse events
+            slideThumb.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            
+            // Touch events for mobile
+            slideThumb.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('touchend', stopDrag);
+            
+            function startDrag(e) {
+                isDragging = true;
+                trackRect = slideTrack.getBoundingClientRect();
+                startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+                
+                // Add visual feedback
+                slideThumb.classList.add('dragging');
+                slideTrack.classList.add('dragging');
+                slideThumb.style.transition = 'none';
+                
+                e.preventDefault();
+            }
+            
+            function drag(e) {
+                if (!isDragging) return;
+                
+                e.preventDefault();
+                const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+                const deltaX = clientX - startX;
+                
+                // Calculate new position with bounds
+                const newTranslateX = Math.max(0, Math.min(maxSlideDistance, deltaX));
+                
+                // Apply visual position
+                slideThumb.style.transform = `translateX(${newTranslateX}px)`;
+                currentTranslateX = newTranslateX;
+                
+                // Calculate progress for visual feedback
+                const progress = newTranslateX / maxSlideDistance;
+                
+                // Adjust text opacity and glow based on progress
+                slideText.style.opacity = 0.85 - (progress * 0.5);
+                slideText.style.textShadow = `
+                    0 0 ${20 - progress * 10}px rgba(255, 255, 255, ${0.3 - progress * 0.2}),
+                    0 1px 3px rgba(0, 0, 0, 0.2)
+                `;
+                
+                // Add dynamic scale effect
+                const scaleEffect = 1.02 + (progress * 0.06);
+                slideThumb.style.transform = `translateX(${newTranslateX}px) scale(${scaleEffect})`;
+                
+                // Check if slide is complete (80% of the way)
+                if (newTranslateX >= maxSlideDistance * 0.8) {
+                    completeSlide();
+                }
+            }
+            
+            function stopDrag() {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                
+                // If not completed, snap back with smooth animation
+                if (currentTranslateX < maxSlideDistance * 0.8) {
+                    slideThumb.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    slideText.style.transition = 'opacity 0.4s ease, text-shadow 0.4s ease';
+                    slideText.style.opacity = '0.85';
+                    slideText.style.textShadow = `
+                        0 0 20px rgba(255, 255, 255, 0.3),
+                        0 1px 3px rgba(0, 0, 0, 0.2)
+                    `;
+                    
+                    resetThumbPosition();
+                } else {
+                    slideThumb.style.transition = 'transform 0.3s ease';
+                }
+            }
+            
+            function completeSlide() {
+                isDragging = false;
+                
+                // Complete the slide animation
+                slideThumb.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                slideThumb.style.transform = `translateX(${maxSlideDistance}px) scale(1.1)`;
+                
+                // Enhanced completion effects
+                slideTrack.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(200, 200, 200, 0.08) 100%)';
+                slideTrack.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                slideTrack.style.boxShadow = `
+                    0 8px 32px rgba(0, 0, 0, 0.15),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    0 0 20px rgba(255, 255, 255, 0.1)
+                `;
+                
+                // Immediate navigation without fade effects
+                setTimeout(() => {
+                    window.location.href = 'main.html';
+                }, 300);
+            }
+            
+            // Prevent default drag behaviors
+            slideThumb.addEventListener('dragstart', e => e.preventDefault());
+            slideThumb.addEventListener('contextmenu', e => e.preventDefault());
+        });
+    </script>
+    
+    <footer style="text-align: center; margin-top: 40px; margin-bottom: 16px;">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: #aaa; opacity: 0.8;">©️utf project</p>
+    </footer>
+    
+</body>
+</html>
